@@ -1,0 +1,39 @@
+#Basic placeholder puzzles if ai is inaccessable
+puzzle1 = [
+    ["PITCH", "PLUG", "PROMOTE", "PUSH"],
+    ["COUPLE", "ITEM", "PAIR", "THING"],
+    ["AD","ALL","DEUCE", "LOVE"],
+    ["STAR", "DRAGON", "JACK", "PASSION"]
+    ]
+puzzle2 = [
+    ["BRAINSTORM", "IDEATE", "SPITBALL", "WORKSHOP"],
+    ["CONCRETE", "MATERIAL", "REAL", "SOLID"],
+    ["BIRTHDAY","CRUMB","MARBLE", "POUND"],
+    ["CURVEBALL", "PARTY", "TANTRUM", "WRENCH"]
+    ]
+puzzle3 = [
+    ["DOORSTOP", "FLATIRON", "PIE SLICE", "WEDGE"],
+    ["BLEACH", "IRON", "TUMBLE DRY", "WRING"],
+    ["LOLL","POKE","PUTTER", "SHUFFLE"],
+    ["CRACKER", "FLY", "WOOD", "WORKS"]
+    ]
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://ai.hackclub.com/proxy/v1",
+    api_key="CONNECTIONS_API_KEY"  #Will be replaced with API key
+)
+
+# Send the prompt
+response = client.chat.completions.create(
+    model="anthropic/claude-sonnet-5.5",
+    messages=[
+        {"role": "system", "content": "You are a puzzle creator for the New York Times Connections."},
+        {"role": "user", "content": "Build a python list using the colors and theme in the format: '[theme, answer1, answer2, answer3, answer4]' in order by difficulty and the 4 words in each color, and only that. "}
+    ]
+)
+
+
+puzzle = response.choices[0].message.content
+
+print(puzzle)
